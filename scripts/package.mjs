@@ -1,4 +1,5 @@
 import { promises as fs } from "node:fs";
+import fss from "node:fs";
 import path from "node:path";
 import { Buffer } from "node:buffer";
 
@@ -66,6 +67,10 @@ for (const target of selectedTargets) {
 
   const outputName = `mosu!-preview-${target} v${manifest.version}.${ext}`;
   const outputPath = path.join(distDir, outputName);
+  if (fss.existsSync(outputPath)) {
+    await fs.rm(outputPath);
+  }
+
   const zipData = createZip(files);
   validatePackage(target, files, zipData);
   console.log(`checked dist/${outputName} (${files.length} files)`);
