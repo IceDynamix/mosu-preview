@@ -189,6 +189,12 @@ export const POPUP_SIZE_PRESETS = Object.freeze({
     mobileShellWidth: 430,
     mobileContentWidth: 414,
   }),
+  mega: Object.freeze({
+    shellWidth: 650,
+    contentWidth: 625,
+    mobileShellWidth: 430,
+    mobileContentWidth: 414,
+  }),
 });
 
 export const normalizeManiaScrollSpeed = (value) => {
@@ -349,7 +355,7 @@ export const applyPreviewSettingChanges = (currentSettings = {}, changes = {}) =
   return normalizePreviewSettings(items);
 };
 
-export const calculateManiaScrollTimeMs =(scrollSpeed, bpm = 120, scaleWithBpm = false) => {
+export const calculateManiaScrollTimeMs = (scrollSpeed, bpm = 120, scaleWithBpm = false) => {
   const normalizedSpeed = normalizeManiaScrollSpeed(scrollSpeed);
   let scrollTimeMs = 11485 / normalizedSpeed;
 
