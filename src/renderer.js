@@ -37,14 +37,14 @@ const MANIA_SCROLL_TRAVEL_HEIGHT_SCALE = 1.34;
 // Beat snaps for the timing-coloured mania notes, coarsest first so a note on a
 // whole beat is never coloured as a 1/16.
 const MANIA_SNAP_COLOURS = Object.freeze([
-  { denominator: 1, colour: { r: 255, g: 238, b: 134 } },
-  { denominator: 2, colour: { r: 105, g: 196, b: 255 } },
-  { denominator: 3, colour: { r: 202, g: 146, b: 255 } },
-  { denominator: 4, colour: { r: 255, g: 116, b: 162 } },
-  { denominator: 6, colour: { r: 126, g: 232, b: 169 } },
-  { denominator: 8, colour: { r: 255, g: 174, b: 103 } },
-  { denominator: 12, colour: { r: 132, g: 255, b: 226 } },
-  { denominator: 16, colour: { r: 235, g: 139, b: 255 } },
+  { denominator: 1, colour: { r: 255, g: 102, b: 102 } },
+  { denominator: 2, colour: { r: 0, g: 197, b: 255 } },
+  { denominator: 3, colour: { r: 192, g: 93, b: 255 } },
+  { denominator: 4, colour: { r: 255, g: 221, b: 0 } },
+  { denominator: 6, colour: { r: 255, g: 99, b: 189 } },
+  { denominator: 8, colour: { r: 255, g: 133, b: 83 } },
+  { denominator: 12, colour: { r: 0, g: 236, b: 255 } },
+  { denominator: 16, colour: { r: 0, g: 255, b: 158 } },
 ]);
 const MANIA_UNSNAPPED_COLOUR = Object.freeze({ r: 255, g: 255, b: 255 });
 // osu!lazer's TimingControlPoint floor for beat length.
@@ -1781,7 +1781,7 @@ export class PreviewRenderer {
       1,
       20,
     );
-    const laneAreaWidth = playfieldWidth * 0.62;
+    const laneAreaWidth = playfieldWidth * 0.4;
     const laneAreaX = playfieldX + ((playfieldWidth - laneAreaWidth) / 2);
     const laneWidth = laneAreaWidth / keys;
     const scrollsUp = this.maniaScrollDirection === 'up';
@@ -1830,13 +1830,13 @@ export class PreviewRenderer {
     ctx.fillStyle = 'rgba(255,255,255,0.85)';
     ctx.fillRect(laneAreaX, receptorY - receptorHalf, laneAreaWidth, receptorThickness);
 
-    const lanePadding = Math.max(2, laneWidth * 0.12);
+    const lanePadding = Math.max(2, laneWidth * 0.04);
     const noteWidth = Math.max(4, laneWidth - (lanePadding * 2));
-    const noteHeight = Math.max(8, playfieldHeight * 0.03);
+    const noteHeight = Math.max(8, playfieldHeight * 0.05);
     // Mania notes spawn a bit above the visible field, so use a slightly larger travel distance.
     const scrollTravelHeight = playfieldHeight * MANIA_SCROLL_TRAVEL_HEIGHT_SCALE;
     const currentPixelsPerMs = Math.max(0.001, this.getManiaPixelsPerMs(currentTime, scrollTravelHeight));
-    const edgeFadeHeight = Math.max(16, playfieldHeight * 0.11);
+    const edgeFadeHeight = Math.max(16, playfieldHeight * 0.0);
     const topFadeEndY = playfieldY + edgeFadeHeight;
     const bottomFadeStartY = playfieldY + playfieldHeight - edgeFadeHeight;
     const postJudgeTravelPx = Math.max(receptorHalf, noteHeight * 0.25);
@@ -1945,6 +1945,7 @@ export class PreviewRenderer {
         const bodyHeight = bodyBottom - bodyTop;
         if (bodyHeight > 2) {
           const bodyAlpha = alpha * 0.35;
+          const holdWidth = 1.0;
           if (!scrollsUp && bodyTop < topFadeEndY) {
             const fadeStop = clamp((topFadeEndY - bodyTop) / Math.max(bodyHeight, 1), 0, 1);
             const startAlpha = bodyTop <= playfieldY
@@ -1970,9 +1971,9 @@ export class PreviewRenderer {
           }
           drawRoundedRect(
             ctx,
-            noteX + (noteWidth * 0.2),
+            noteX + (1.0 - holdWidth) / 2.0,
             bodyTop,
-            noteWidth * 0.6,
+            noteWidth * holdWidth,
             bodyHeight,
             Math.min(3, noteHeight * 0.28),
           );
