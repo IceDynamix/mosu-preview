@@ -1792,24 +1792,29 @@ export class PreviewRenderer {
     const lookBehindMs = 80;
     const visibleStart = currentTime - lookBehindMs;
     const visibleEnd = currentTime + 10000;
-    const centerLane = (keys % 2 === 1) ? Math.floor(keys / 2) : -1;
-    const lightPinkBase = { r: 232, g: 210, b: 223 };
-    const pinkBase = { r: 205, g: 113, b: 160 };
-    const centerBase = { r: 231, g: 211, b: 58 };
+    const l1 = { r: 205, g: 113, b: 160 };
+    const l2 = l1;
+    // const l2 = { r: 232, g: 210, b: 223 };
+    const l3 = { r: 231, g: 211, b: 58 };
+
+    const keyLaneColorMap = [
+      [], // 0
+      [l1], // 1
+      [l1, l1],
+      [l1, l3, l1],
+      [l1, l1, l1, l1],
+      [l1, l1, l3, l1, l1],
+      [l1, l2, l1, l1, l2, l1],
+      [l1, l2, l1, l3, l1, l2, l1],
+      [l3, l1, l2, l1, l3, l1, l2, l1],
+      [l3, l1, l2, l1, l3, l1, l2, l1, l3], // 9
+    ]
+
+    const laneColors = keyLaneColorMap[keys > 9 ? 0 : keys];
 
     const getLaneGroupBase = (lane) => {
-      if (lane === centerLane) {
-        return centerBase;
-      }
-      if (centerLane >= 0) {
-        const distanceFromCenter = Math.abs(lane - centerLane);
-        return (distanceFromCenter % 2 === 1) ? pinkBase : lightPinkBase;
-      }
-      const half = keys / 2;
-      const distanceFromSplit = lane < half
-        ? ((half - 1) - lane)
-        : (lane - half);
-      return (distanceFromSplit % 2 === 0) ? pinkBase : lightPinkBase;
+      if (lane > laneColors.length) return l1;
+      return laneColors[lane]
     };
 
     for (let lane = 0; lane < keys; lane += 1) {
