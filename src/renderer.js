@@ -1227,11 +1227,11 @@ export class PreviewRenderer {
     const currentTime = this.currentTimeMs;
     const laneY = playfieldY + (playfieldHeight * 0.5);
     const laneHeight = playfieldHeight * 0.22;
-    const judgeX = playfieldX + (playfieldWidth * 0.12);
+    const judgeX = playfieldX + (playfieldWidth * 0.1);
     const laneRightOverflow = Math.max(18, playfieldWidth * 0.055);
     const laneRightEdge = playfieldX + playfieldWidth + laneRightOverflow;
-    const noteTravelWidth = (playfieldWidth * 0.82) + laneRightOverflow;
-    const rightFadeWidth = Math.max(12, noteTravelWidth * 0.07);
+    const noteTravelWidth = (playfieldWidth * 0.9) + laneRightOverflow;
+    const rightFadeWidth = Math.max(12, noteTravelWidth * 0.00);
     const rightFadeStartX = (judgeX + noteTravelWidth) - rightFadeWidth;
     const leftMeasureFadeWidth = Math.max(24, judgeX - playfieldX);
     const maxVisibleAheadMs = 8000;
@@ -1402,8 +1402,9 @@ export class PreviewRenderer {
       if (x <= judgeX || x > (laneRightEdge + 20)) {
         continue;
       }
-      const futureDistance = Math.max(0, x - judgeX);
-      let alpha = 0.2 + (0.68 * clamp(1 - (futureDistance / Math.max(noteTravelWidth, 1)), 0, 1));
+      // const futureDistance = Math.max(0, x - judgeX);
+      // let alpha = 0.2 + (0.68 * clamp(1 - (futureDistance / Math.max(noteTravelWidth, 1)), 0, 1));
+      let alpha = 1.0;
       alpha *= taikoFadeAlphaAtX(x);
       if (alpha <= 0.02) {
         continue;
