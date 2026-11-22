@@ -1977,7 +1977,7 @@ export class PreviewRenderer {
           }
           drawRoundedRect(
             ctx,
-            noteX + noteWidth * (1.0 * holdWidth) / 2.0,
+            noteX + noteWidth * (1.0 - holdWidth) * 0.5,
             bodyTop,
             noteWidth * holdWidth,
             bodyHeight,
