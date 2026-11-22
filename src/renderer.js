@@ -2230,7 +2230,12 @@ export class PreviewRenderer {
           }
           ctx.stroke();
 
-          ctx.strokeStyle = withAlpha(combo, baseAlpha * 0.56);
+          ctx.strokeStyle = withAlpha({
+            r: combo.r * baseAlpha * 0.56,
+            g: combo.g * baseAlpha * 0.56,
+            b: combo.b * baseAlpha * 0.56
+          }, 1.0);
+
           ctx.lineWidth = sliderBodyRadius * 2;
           ctx.lineCap = 'round';
           ctx.lineJoin = 'round';
