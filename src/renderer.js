@@ -2582,6 +2582,16 @@ export class PreviewRenderer {
       }
     }
 
+    // render bookmarks
+    {
+      const bookmarks = this.mapData?.bookmarks || [];
+      const bookmarkHeight = 0.2;
+      for (const t of bookmarks) {
+        ctx.fillStyle = 'rgba(128, 128, 255, 0.5)';
+        ctx.fillRect(t / timelineDurationMs * width, (1 - bookmarkHeight) * height, 2, bookmarkHeight * height)
+      }
+    }
+
     const needsViewDensity = this.isTimelineZoomed() || this.isTimelineDurationAnimating();
     let density = this.timelineDensity || [];
     if (needsViewDensity) {
@@ -2606,6 +2616,7 @@ export class PreviewRenderer {
         ctx.fillRect(i * barWidth, baselineY - h, barWidthDrawn, h);
       }
     }
+
 
     if (this.currentTimeMs >= startMs && this.currentTimeMs <= endMs) {
       const progress = (this.currentTimeMs - startMs) / (timelineDurationMs || 1);

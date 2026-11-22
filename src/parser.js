@@ -132,6 +132,7 @@ export const parseMapPreviewData = (content, options = {}) => {
   const timingPoints = [];
   const hitObjectLines = [];
   const objects = [];
+  const bookmarks = [];
 
   let section = '';
   let sliderMultiplier = 1.0;
@@ -211,6 +212,21 @@ export const parseMapPreviewData = (content, options = {}) => {
         overallDifficulty = value;
       } else if (key === 'hpdrainrate') {
         hpDrainRate = value;
+      }
+      continue;
+    }
+
+    if (section === 'editor') {
+      const sep = trimmed.indexOf(':');
+      if (sep === -1) {
+        continue;
+      }
+
+      const key = trimmed.slice(0, sep).trim().toLowerCase();
+      const value = trimmed.slice(sep + 1);
+
+      if (key === 'bookmarks') {
+        bookmarks.push(...value.split(",").map(t => parseInt(t, 10)).sort());
       }
       continue;
     }
@@ -447,6 +463,7 @@ export const parseMapPreviewData = (content, options = {}) => {
     beatmapVersion: Number.isFinite(beatmapVersion) ? beatmapVersion : 14,
     sliderMultiplier: Number.isFinite(sliderMultiplier) ? sliderMultiplier : 1.0,
     sliderTickRate: Number.isFinite(sliderTickRate) ? sliderTickRate : 1.0,
+    bookmarks,
     bpmMin,
     bpmMax,
     primaryBpm: Number.isFinite(primaryBpm) && primaryBpm > 0 ? primaryBpm : 0,
